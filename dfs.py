@@ -16,6 +16,7 @@ def dfs(graph, start, n):
 
     return path
 
+
 n = int(input("Number of nodes: "))
 print("Enter adjacency matrix:")
 graph = [list(map(int, input().split())) for _ in range(n)]

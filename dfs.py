@@ -1,23 +1,26 @@
-def dfs(graph, start, visited=None):
-    if visited is None:
-        visited = set()
-    
-    visited.add(start)
-    print(start, end=" ")
+from collections import deque
 
-    for neighbor, is_adjacent in enumerate(graph[start]):
-        if is_adjacent == 1 and neighbor not in visited:
-            dfs(graph, neighbor, visited)
+def dfs(graph, start, n):
+    visited = [False] * n
+    stack = [start]
+    path = []
 
-# --- Main Program ---
-n = int(input("Enter the number of vertices: "))
-graph = []
+    while stack:
+        node = stack.pop()
+        if not visited[node]:
+            visited[node] = True
+            path.append(node + 1)
+            for neighbor in reversed(range(n)):
+                if graph[node][neighbor] == 1 and not visited[neighbor]:
+                    stack.append(neighbor)
 
-print("Enter the adjacency matrix (0 for no edge, 1 for edge):")
-for i in range(n):
-    row = list(map(int, input().split()))
-    graph.append(row)
+    return path
 
-start_vertex = int(input(f"Enter the starting vertex (0 to {n-1}): "))
-print("DFS Traversal starting from vertex", start_vertex, ":")
-dfs(graph, start_vertex)
+n = int(input("Number of nodes: "))
+print("Enter adjacency matrix:")
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+start = int(input("Source node: ")) - 1
+result = dfs(graph, start, n)
+
+print("DFS Traversal Path:", result)
